@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, ConfigDict, field_validator
 import re
 
 
@@ -19,7 +19,7 @@ class TargetUpdate(BaseModel):
 
 
 class TargetInDB(TargetBase):
-    model_config = {"from_attributes": True}
+    model_config = ConfigDict(from_attributes=True)
 
     id: int
     status: str
