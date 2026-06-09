@@ -1,22 +1,18 @@
-# SentinelRecon
+# Project-Helios
 
-<a href="https://github.com/cybersecurity-sentinel/sentinelrecon/actions/workflows/ci.yml">
-  <img alt="CI" src="https://github.com/cybersecurity-sentinel/sentinelrecon/actions/workflows/ci.yml/badge.svg" />
-</a>
-<a href="https://github.com/cybersecurity-sentinel/sentinelrecon/actions/workflows/security.yml">
-  <img alt="Security" src="https://github.com/cybersecurity-sentinel/sentinelrecon/actions/workflows/security.yml/badge.svg" />
-</a>
-<a href="https://github.com/cybersecurity-sentinel/sentinelrecon/actions/workflows/codeql.yml">
-  <img alt="CodeQL" src="https://github.com/cybersecurity-sentinel/sentinelrecon/actions/workflows/codeql.yml/badge.svg" />
-</a>
-<a href="https://github.com/cybersecurity-sentinel/sentinelrecon/releases">
-  <img alt="Version" src="https://img.shields.io/github/v/release/cybersecurity-sentinel/sentinelRecon?label=version" />
-</a>
-<a href="https://github.com/cybersecurity-sentinel/sentinelrecon/blob/main/LICENSE">
-  <img alt="License" src="https://img.shields.io/github/license/cybersecurity-sentinel/sentinelrecon" />
-</a>
-<a href="https://github.com/cybersecurity-sentinel/sentinelrecon">
-  <img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/ghcr.io/cybersecurity-sentinel/sentinelrecon" />
+<p align="center">
+
+<img src="https://img.shields.io/github/license/HarolTorrado73/SentinelRecon" />
+
+<img src="https://img.shields.io/github/last-commit/HarolTorrado73/SentinelRecon" />
+
+<img src="https://img.shields.io/github/repo-size/HarolTorrado73/SentinelRecon" />
+
+<img src="https://img.shields.io/github/languages/top/HarolTorrado73/SentinelRecon" />
+
+<img src="https://img.shields.io/github/issues/HarolTorrado73/SentinelRecon" />
+
+</p>
 </a>
 
 > Next-Generation Security Reconnaissance Platform
