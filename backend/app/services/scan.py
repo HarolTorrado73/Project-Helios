@@ -1,6 +1,6 @@
 import subprocess
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 import nmap
@@ -61,7 +61,7 @@ class ScanService:
             
             scan.results = ScanService._parse_nmap_results(nm, target_obj.value)
             scan.status = "completed"
-            scan.completed_at = datetime.utcnow()
+            scan.completed_at = datetime.now(timezone.utc)
         except Exception as e:
             scan.status = "failed"
             scan.error_message = str(e)

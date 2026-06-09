@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from sqlalchemy import select
@@ -82,7 +82,6 @@ class ReportService:
                 elements.append(Paragraph(f"Status: {host['status']}", styles["Normal"]))
         
         doc.build(elements)
-        report.file_path = filepath
         return {"file_path": filepath, "type": "pdf"}
 
     @staticmethod
@@ -105,7 +104,6 @@ class ReportService:
                             "",
                         ])
         
-        report.file_path = filepath
         return {"file_path": filepath, "type": "csv"}
 
     @staticmethod
@@ -118,10 +116,9 @@ class ReportService:
                 "title": report.title,
                 "scan_id": report.scan_id,
                 "results": scan.results if scan else None,
-                "generated_at": datetime.utcnow().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
             }, f, indent=2)
         
-        report.file_path = filepath
         return {"file_path": filepath, "type": "json"}
 
     @staticmethod

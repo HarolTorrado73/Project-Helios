@@ -59,9 +59,9 @@ class UserService:
 
     @staticmethod
     async def authenticate(
-        db: AsyncSession, email: str, password: str
+        db: AsyncSession, username: str, password: str
     ) -> User | None:
-        user = await UserService.get_by_email(db, email)
+        user = await UserService.get_by_email(db, username)
         if not user:
             return None
         if not verify_password(password, user.hashed_password):
