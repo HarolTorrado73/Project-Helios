@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 84% 5%;
+    --foreground: 210 40% 98%;
+    --card: 240 46% 11%;
+    --card-foreground: 210 40% 98%;
+    --primary: 190 100% 50%;
+    --primary-foreground: 222 84% 5%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 330 100% 55%;
+    --accent-foreground: 210 40% 98%;
+    --border: 217 33% 17%;
+    --ring: 190 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-cyber-dark text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .cyber-card {
+    @apply bg-cyber-card border border-border rounded-lg p-6;
+    box-shadow: 0 0 30px rgb(0 212 255 / 0.1);
+  }
+
+  .cyber-text-gradient {
+    @apply bg-gradient-to-r from-cyber-blue to-cyber-accent bg-clip-text text-transparent;
+  }
+
+  .cyber-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .cyber-button {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+    @apply bg-cyber-blue text-cyber-dark hover:bg-cyber-accent hover:text-white;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .cyber-input {
+    @apply w-full px-4 py-2 rounded-lg bg-secondary border border-border;
+    @apply text-foreground placeholder:text-muted-foreground;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary;
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
