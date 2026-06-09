@@ -3,7 +3,7 @@ version="0.1.0"
 description="Next-Generation Security Reconnaissance Platform - Backend"
 authors=["SentinelRecon Team"]
 license="MIT"
-requires-python=">=3.13"
+requires-python=">=3.12"
 dependencies=[
     "fastapi>=0.115.0",
     "uvicorn[standard]>=0.32.0",
@@ -16,7 +16,7 @@ dependencies=[
     "python-multipart>=0.0.19",
     "redis>=5.0.0",
     "celery[redis]>=5.4.0",
-    "nmap-python>=0.7.0",
+    "python-nmap>=0.7.0",
     "reportlab>=4.2.0",
     "pandas>=2.2.0",
     "python-socketio>=5.11.0",

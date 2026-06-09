@@ -1,9 +1,13 @@
 from pydantic_settings import BaseSettings
-from pydantic import Field
-import os
 
 
 class Settings(BaseSettings):
+    model_config = {
+        "case_sensitive": True,
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+    }
+
     PROJECT_NAME: str = "SentinelRecon"
     VERSION: str = "0.1.0"
     API_V1_STR: str = "/api/v1"
@@ -13,27 +17,21 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = "sentinelrecon"
     POSTGRES_DB: str = "sentinelrecon"
     POSTGRES_PORT: int = 5432
-    DATABASE_URL: str = Field(default="")
 
     REDIS_HOST: str = "localhost"
     REDIS_PORT: int = 6379
     REDIS_DB: int = 0
-    REDIS_URL: str = Field(default="")
 
-    SECRET_KEY: str = Field(default="")
+    SECRET_KEY: str = "dev-secret-key"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
-    CELERY_BROKER_URL: str = Field(default="")
-    CELERY_RESULT_BACKEND: str = Field(default="")
+    DATABASE_URL: str = ""
+    REDIS_URL: str = ""
+    CELERY_BROKER_URL: str = ""
+    CELERY_RESULT_BACKEND: str = ""
 
-    class Config:
-        case_sensitive = True
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def model_post_init(self, __context) -> None:
         if not self.DATABASE_URL:
             self.DATABASE_URL = (
                 f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
