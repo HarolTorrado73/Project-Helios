@@ -1,5 +1,7 @@
 import { Link, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Targets from './pages/Targets'
+import Scans from './pages/Scans'
 
 function Home() {
   return (
@@ -22,18 +24,25 @@ function Home() {
         </Link>
       </div>
 
-      <div className="cyber-card max-w-4xl mx-auto text-left mt-12">
-        <h2 className="text-xl font-bold mb-4 text-cyber-blue">Features</h2>
-        <ul className="space-y-2 text-muted-foreground">
-          <li>• SOC Dashboard: Real-time security operations center with animated visualizations</li>
-          <li>• Target Management: Multi-type target support (IP, Domain, CIDR)</li>
-          <li>• Nmap Integration: Full-featured scanner engine with parallel execution</li>
-          <li>• Report Generation: PDF, CSV, and JSON exports with executive summaries</li>
-          <li>• Audit Trail: Complete activity logging for compliance</li>
-          <li>• Role-Based Access: Admin, Analyst, and Viewer roles</li>
-          <li>• REST API: Versioned OpenAPI documentation</li>
-          <li>• Real-time Updates: WebSocket-powered live monitoring</li>
-        </ul>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        <div className="cyber-card">
+          <h3 className="text-cyber-blue font-bold mb-2">Real-time Monitoring</h3>
+          <p className="text-muted-foreground text-sm">
+            Live security dashboards with animated visualizations and instant alerts
+          </p>
+        </div>
+        <div className="cyber-card">
+          <h3 className="text-cyber-blue font-bold mb-2">Automated Scanning</h3>
+          <p className="text-muted-foreground text-sm">
+            Parallel Nmap execution with comprehensive vulnerability detection
+          </p>
+        </div>
+        <div className="cyber-card">
+          <h3 className="text-cyber-blue font-bold mb-2">Professional Reports</h3>
+          <p className="text-muted-foreground text-sm">
+            PDF, CSV, JSON exports with executive summaries and compliance data
+          </p>
+        </div>
       </div>
     </div>
   )
@@ -87,10 +96,23 @@ function Dashboard() {
         </div>
       </div>
       <div className="cyber-card">
-        <h3 className="text-lg font-bold mb-4">API Access</h3>
-        <p className="text-muted-foreground mb-2">
-          Backend API docs: <a href={`${backendUrl}/api/v1/docs`} className="text-cyber-blue hover:underline" target="_blank" rel="noopener noreferrer">{backendUrl}/api/v1/docs</a>
-        </p>
+        <h3 className="text-lg font-bold mb-4">Quick Links</h3>
+        <div className="flex gap-4">
+          <Link to="/targets" className="cyber-button">
+            Manage Targets
+          </Link>
+          <Link to="/scans" className="cyber-button">
+            View Scans
+          </Link>
+          <a
+            href={`${backendUrl}/api/v1/docs`}
+            className="cyber-button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            API Docs
+          </a>
+        </div>
       </div>
     </div>
   )
@@ -105,6 +127,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/targets" element={<Targets />} />
+          <Route path="/scans" element={<Scans />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>

@@ -30,6 +30,22 @@ export default function Navbar() {
               Dashboard
             </Link>
             <Link
+              to="/targets"
+              className={`text-sm font-medium transition-colors ${
+                isActive('/targets') ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Targets
+            </Link>
+            <Link
+              to="/scans"
+              className={`text-sm font-medium transition-colors ${
+                isActive('/scans') ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Scans
+            </Link>
+            <Link
               to="/login"
               className={`text-sm font-medium transition-colors ${
                 isActive('/login') ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
