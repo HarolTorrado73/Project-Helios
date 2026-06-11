@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from typing import Any
 
 
 class Settings(BaseSettings):
@@ -22,7 +23,7 @@ class Settings(BaseSettings):
     REDIS_PORT: int = 6379
     REDIS_DB: int = 0
 
-    SECRET_KEY: str = "dev-secret-key"
+    SECRET_KEY: str = ""
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
@@ -31,7 +32,21 @@ class Settings(BaseSettings):
     CELERY_BROKER_URL: str = ""
     CELERY_RESULT_BACKEND: str = ""
 
-    def model_post_init(self, __context) -> None:
+    APP_ENV: str = "development"
+
+    STORAGE_PATH: str = "storage"
+    REPORTS_DIR: str = "storage/reports"
+    LOGS_DIR: str = "logs"
+
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+
+    def model_post_init(self, __context: Any) -> None:
+        if not self.SECRET_KEY:
+            raise ValueError(
+                "SECRET_KEY must be set in environment variables. "
+                "Generate one with: python -c \"import secrets; print(secrets.token_urlsafe(32))\""
+            )
         if not self.DATABASE_URL:
             self.DATABASE_URL = (
                 f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
