@@ -1,10 +1,12 @@
-from datetime import datetime
 from typing import Any
 
+import structlog
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import settings
 from app.models.audit_log import AuditLog
+from app.schemas.audit import AuditLogCreate
 
 
 class AuditService:
