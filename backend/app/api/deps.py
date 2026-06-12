@@ -1,11 +1,7 @@
-from typing import Annotated
-
 from fastapi import Depends
-from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.core.security import verify_password, create_access_token
 from app.schemas.user import User
 from app.services.user import UserService
 from jose import jwt
