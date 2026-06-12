@@ -1,5 +1,4 @@
-from pydantic import BaseModel, Field, ConfigDict, field_validator
-import re
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class TargetBase(BaseModel):
