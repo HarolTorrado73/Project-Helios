@@ -32,17 +32,19 @@ jobs:
         config-file: ./codeql/codeql-config.yml
 
     - name: Setup Python
+      if: matrix.language == 'python'
       uses: actions/setup-python@v5
       with:
         python-version: "3.12"
-        cache: "pip"
 
     - name: Install Python dependencies
+      if: matrix.language == 'python'
       run: |
         python -m pip install --upgrade pip
         pip install -r backend/requirements.txt
 
     - name: Setup Node.js
+      if: matrix.language == 'javascript'
       uses: actions/setup-node@v4
       with:
         node-version: "20"
@@ -50,6 +52,7 @@ jobs:
         cache-dependency-path: frontend/package-lock.json
 
     - name: Install Node.js dependencies
+      if: matrix.language == 'javascript'
       run: |
         cd frontend
         npm ci
