@@ -1,12 +1,9 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.services.report import ReportService
 from app.schemas.report import ReportCreate, Report
-from app.api.deps import get_current_active_user, get_current_admin_user
-from fastapi import Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
-from app.api.deps import get_db
-from app.core.config import settings
+from app.api.deps import get_current_active_user, get_current_admin_user, get_db
 
 router = APIRouter()
 
