@@ -8,6 +8,9 @@ from app.core.config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# In-memory token blacklist for demo (replace with Redis in production)
+token_blacklist: set[str] = set()
+
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
@@ -23,3 +26,17 @@ def create_access_token(subject: Any, expires_delta: timedelta | None = None) ->
     )
     to_encode = {"exp": expire, "sub": str(subject)}
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+
+
+def create_refresh_token(subject: Any) -> str:
+    expire = datetime.now(timezone.utc) + timedelta(days=7)
+    to_encode = {"exp": expire, "sub": str(subject), "type": "refresh"}
+    return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+
+
+def revoke_token(token: str) -> None:
+    token_blacklist.add(token)
+
+
+def is_token_revoked(token: str) -> bool:
+    return token in token_blacklist
