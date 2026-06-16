@@ -1,5 +1,8 @@
 import { Link, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import ProtectedRoute from './components/ProtectedRoute'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import Targets from './pages/Targets'
 import Scans from './pages/Scans'
 
@@ -43,29 +46,6 @@ function Home() {
             PDF, CSV, JSON exports with executive summaries and compliance data
           </p>
         </div>
-      </div>
-    </div>
-  )
-}
-
-function Login() {
-  return (
-    <div className="min-h-[60vh] flex items-center justify-center">
-      <div className="cyber-card w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-          <div>
-            <label className="block text-sm font-medium mb-1">Username</label>
-            <input type="text" className="cyber-input" placeholder="Enter username" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
-            <input type="password" className="cyber-input" placeholder="Enter password" />
-          </div>
-          <button type="submit" className="cyber-button w-full">
-            Sign In
-          </button>
-        </form>
       </div>
     </div>
   )
@@ -126,9 +106,31 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/targets" element={<Targets />} />
-          <Route path="/scans" element={<Scans />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/targets"
+            element={
+              <ProtectedRoute>
+                <Targets />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/scans"
+            element={
+              <ProtectedRoute>
+                <Scans />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
