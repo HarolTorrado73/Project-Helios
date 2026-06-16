@@ -60,3 +60,9 @@ alembic/versions/*.pyc
 
 
 .kilo/
+
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
