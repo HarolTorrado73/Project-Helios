@@ -21,6 +21,12 @@ apiClient.interceptors.request.use((config) => {
 export const endpoints = {
   auth: {
     login: '/api/v1/auth/login',
+    register: '/api/v1/auth/register',
+    refresh: '/api/v1/auth/refresh',
+    logout: '/api/v1/auth/logout',
+  },
+  users: {
+    me: '/api/v1/users/me',
   },
   targets: {
     list: '/api/v1/targets',
@@ -33,5 +39,7 @@ export const endpoints = {
   reports: {
     list: '/api/v1/reports',
     create: '/api/v1/reports',
+    download: (id: number) => `/api/v1/reports/${id}/download`,
+    generate: (id: number) => `/api/v1/reports/${id}/generate`,
   },
 }
