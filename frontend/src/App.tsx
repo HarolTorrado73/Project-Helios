@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -5,6 +6,18 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Targets from './pages/Targets'
 import Scans from './pages/Scans'
+import Sessions from './pages/Sessions'
+import { apiClient, endpoints } from './lib/apiClient'
+
+interface Stats {
+  users: number
+  machines: number
+  sessions: number
+  activeSessions: number
+  reports: number
+  targets: number
+  scans: number
+}
 
 function Home() {
   return (
@@ -53,26 +66,91 @@ function Home() {
 
 function Dashboard() {
   const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+  const [stats, setStats] = useState<Stats>({
+    users: 0,
+    machines: 0,
+    sessions: 0,
+    activeSessions: 0,
+    reports: 0,
+    targets: 0,
+    scans: 0,
+  })
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadStats = async () => {
+      setLoading(true)
+      try {
+        const [users, targets, scans, sessions, reports] = await Promise.all([
+          apiClient.get(endpoints.users.me).catch(() => null),
+          apiClient.get(endpoints.targets.list).catch(() => null),
+          apiClient.get(endpoints.scans.list).catch(() => null),
+          apiClient.get(endpoints.sessions.list).catch(() => null),
+          apiClient.get(endpoints.reports.list).catch(() => null),
+        ])
+
+        setStats({
+          users: users?.data ? 1 : 0,
+          machines: 0,
+          sessions: sessions?.data?.length ?? 0,
+          activeSessions: sessions?.data?.filter((s: any) => s.status === 'active').length ?? 0,
+          reports: reports?.data?.length ?? 0,
+          targets: targets?.data?.length ?? 0,
+          scans: scans?.data?.length ?? 0,
+        })
+      } catch {
+        setStats({
+          users: 0,
+          machines: 0,
+          sessions: 0,
+          activeSessions: 0,
+          reports: 0,
+          targets: 0,
+          scans: 0,
+        })
+      }
+      setLoading(false)
+    }
+    loadStats()
+  }, [])
 
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold cyber-text-gradient">Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="cyber-card">
+          <h3 className="text-muted-foreground text-sm">Total Users</h3>
+          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.users}</p>
+        </div>
+        <div className="cyber-card">
+          <h3 className="text-muted-foreground text-sm">Total Machines</h3>
+          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.machines}</p>
+        </div>
+        <div className="cyber-card">
+          <h3 className="text-muted-foreground text-sm">Total Sessions</h3>
+          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.sessions}</p>
+        </div>
+        <div className="cyber-card">
+          <h3 className="text-muted-foreground text-sm">Active Sessions</h3>
+          <p className="text-3xl font-bold mt-2 text-cyber-accent">
+            {loading ? '-' : stats.activeSessions}
+          </p>
+        </div>
+        <div className="cyber-card">
+          <h3 className="text-muted-foreground text-sm">Total Targets</h3>
+          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.targets}</p>
+        </div>
+        <div className="cyber-card">
           <h3 className="text-muted-foreground text-sm">Total Scans</h3>
-          <p className="text-3xl font-bold mt-2">1,284</p>
+          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.scans}</p>
         </div>
         <div className="cyber-card">
-          <h3 className="text-muted-foreground text-sm">Active Targets</h3>
-          <p className="text-3xl font-bold mt-2">342</p>
+          <h3 className="text-muted-foreground text-sm">Total Reports</h3>
+          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.reports}</p>
         </div>
         <div className="cyber-card">
-          <h3 className="text-muted-foreground text-sm">Reports Generated</h3>
-          <p className="text-3xl font-bold mt-2">567</p>
-        </div>
-        <div className="cyber-card">
-          <h3 className="text-muted-foreground text-sm">Vulnerabilities</h3>
-          <p className="text-3xl font-bold mt-2 text-cyber-accent">89</p>
+          <h3 className="text-muted-foreground text-sm">System Status</h3>
+          <p className="text-3xl font-bold mt-2 text-green-500">Healthy</p>
         </div>
       </div>
       <div className="cyber-card">
@@ -83,6 +161,9 @@ function Dashboard() {
           </Link>
           <Link to="/scans" className="cyber-button">
             View Scans
+          </Link>
+          <Link to="/sessions" className="cyber-button">
+            View Sessions
           </Link>
           <a
             href={`${backendUrl}/api/v1/docs`}
@@ -128,6 +209,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Scans />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/sessions"
+            element={
+              <ProtectedRoute>
+                <Sessions />
               </ProtectedRoute>
             }
           />

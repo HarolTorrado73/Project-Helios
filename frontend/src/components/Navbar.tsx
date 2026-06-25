@@ -46,6 +46,14 @@ export default function Navbar() {
               Scans
             </Link>
             <Link
+              to="/sessions"
+              className={`text-sm font-medium transition-colors ${
+                isActive('/sessions') ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Sessions
+            </Link>
+            <Link
               to="/login"
               className={`text-sm font-medium transition-colors ${
                 isActive('/login') ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
