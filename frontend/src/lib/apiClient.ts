@@ -36,6 +36,12 @@ export const endpoints = {
     list: '/api/v1/scans',
     create: '/api/v1/scans',
   },
+  sessions: {
+    list: '/api/v1/sessions',
+    create: '/api/v1/sessions',
+    update: (id: number) => `/api/v1/sessions/${id}`,
+    delete: (id: number) => `/api/v1/sessions/${id}`,
+  },
   reports: {
     list: '/api/v1/reports',
     create: '/api/v1/reports',
