@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from datetime import datetime
 
 
 class ScanBase(BaseModel):
@@ -19,8 +20,8 @@ class ScanInDB(ScanBase):
 
     id: int
     status: str
-    started_at: str | None = None
-    completed_at: str | None = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
     created_by_id: int | None = None
     results: dict | None = None
     error_message: str | None = None
