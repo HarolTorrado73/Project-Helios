@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from datetime import datetime
 
 
 class ReportBase(BaseModel):
@@ -17,7 +18,7 @@ class ReportInDB(ReportBase):
     id: int
     file_path: str | None = None
     created_by_id: int | None = None
-    created_at: str
+    created_at: datetime
 
 
 class Report(ReportInDB):
