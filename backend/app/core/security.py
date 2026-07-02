@@ -6,7 +6,7 @@ from passlib.context import CryptContext
 
 from app.core.config import settings
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 # In-memory token blacklist for demo (replace with Redis in production)
 token_blacklist: set[str] = set()

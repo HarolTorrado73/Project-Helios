@@ -19,7 +19,7 @@ async def login(
     db: AsyncSession = Depends(get_db),
 ):
     user = await UserService.authenticate(
-        db, form_data.username, form_data.password.get_secret_value()
+        db, form_data.username, form_data.password
     )
     if not user:
         raise HTTPException(status_code=401, detail="Incorrect username or password")
