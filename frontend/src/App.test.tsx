@@ -29,14 +29,16 @@ describe('Navegación', () => {
   it('muestra la página de inicio en la ruta raíz', () => {
     renderWithRouter(<App />, { router: { route: '/' } })
 
-    expect(screen.getByRole('heading', { name: /sentinelrecon/i })).toBeInTheDocument()
-    expect(screen.getByRole('main').querySelector('a.cyber-button[href="/login"]')).toHaveAttribute(
-      'href',
-      '/login'
-    )
-    expect(screen.getByRole('main').querySelector('a[href="/dashboard"]')).toHaveAttribute(
+    expect(
+      screen.getByRole('heading', { name: /radio frequency analysis platform/i })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /abrir dashboard/i })).toHaveAttribute(
       'href',
       '/dashboard'
+    )
+    expect(screen.getByRole('link', { name: /explorar academia/i })).toHaveAttribute(
+      'href',
+      '/academy'
     )
   })
 

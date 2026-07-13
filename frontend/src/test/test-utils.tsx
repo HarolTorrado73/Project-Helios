@@ -2,6 +2,7 @@ import { render, type RenderOptions } from '@testing-library/react'
 import { MemoryRouter, type MemoryRouterProps } from 'react-router-dom'
 import type { ReactElement, ReactNode } from 'react'
 import { useAuthStore, useScanStore } from '../stores/scanStore'
+import { useAcademyStore } from '../stores/academyStore'
 
 interface RouterOptions extends Omit<MemoryRouterProps, 'children'> {
   route?: string
@@ -17,6 +18,13 @@ export function resetStores() {
     targets: [],
     scans: [],
     reports: [],
+    loading: false,
+  })
+  useAcademyStore.setState({
+    courses: [],
+    currentCourse: null,
+    currentLesson: null,
+    learningSummary: null,
     loading: false,
   })
 }
