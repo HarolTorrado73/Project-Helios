@@ -22,3 +22,5 @@ class User(Base):
     scans = relationship("Scan", back_populates="created_by")
     sessions = relationship("Session", back_populates="user")
     audit_logs = relationship("AuditLog", back_populates="user")
+    academy_enrollments = relationship("UserEnrollment", back_populates="user")
+    lesson_progress = relationship("UserLessonProgress", back_populates="user")

@@ -36,6 +36,26 @@ async def get_current_user(
     return user
 
 
+async def get_optional_user(
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
+    db: AsyncSession = Depends(get_db),
+) -> User | None:
+    if not credentials:
+        return None
+
+    try:
+        payload = jwt.decode(
+            credentials.credentials, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
+        user_id = payload.get("sub")
+        if not user_id:
+            return None
+    except Exception:
+        return None
+
+    return await UserService.get(db, int(user_id))
+
+
 async def get_current_active_user(
     current_user: User = Depends(get_current_user),
 ) -> User:

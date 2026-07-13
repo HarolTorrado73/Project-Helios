@@ -16,7 +16,7 @@ from app.schemas.user import UserCreate
 from app.services.user import UserService
 
 # Ensure SQLAlchemy metadata includes all model tables.
-from app.models import audit_log, machine, report, scan, session, target, user  # noqa: F401
+from app.models import academy, audit_log, machine, report, scan, session, target, user  # noqa: F401
 
 
 @pytest.fixture()
