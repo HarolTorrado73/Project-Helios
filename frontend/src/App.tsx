@@ -2,11 +2,16 @@ import { useEffect, useState } from 'react'
 import { Link, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
+import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Targets from './pages/Targets'
 import Scans from './pages/Scans'
 import Sessions from './pages/Sessions'
+import AcademyHome from './pages/academy/AcademyHome'
+import CourseDetail from './pages/academy/CourseDetail'
+import LessonViewer from './pages/academy/LessonViewer'
+import MyLearning from './pages/academy/MyLearning'
 import { apiClient, endpoints } from './lib/apiClient'
 
 interface Stats {
@@ -17,51 +22,6 @@ interface Stats {
   reports: number
   targets: number
   scans: number
-}
-
-function Home() {
-  return (
-    <div className="py-20 text-center space-y-8">
-      <div className="space-y-4">
-        <h1 className="text-5xl font-extrabold cyber-text-gradient">
-          SentinelRecon
-        </h1>
-        <p className="text-xl text-muted-foreground max-w-xl mx-auto">
-          Next-Generation Security Reconnaissance Platform for modern SOC environments
-        </p>
-      </div>
-
-      <div className="flex gap-4 justify-center mt-10">
-        <Link to="/login" className="cyber-button">
-          Login
-        </Link>
-        <Link to="/dashboard" className="cyber-button bg-cyber-accent text-white">
-          Dashboard
-        </Link>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-        <div className="cyber-card">
-          <h3 className="text-cyber-blue font-bold mb-2">Real-time Monitoring</h3>
-          <p className="text-muted-foreground text-sm">
-            Live security dashboards with animated visualizations and instant alerts
-          </p>
-        </div>
-        <div className="cyber-card">
-          <h3 className="text-cyber-blue font-bold mb-2">Automated Scanning</h3>
-          <p className="text-muted-foreground text-sm">
-            Parallel Nmap execution with comprehensive vulnerability detection
-          </p>
-        </div>
-        <div className="cyber-card">
-          <h3 className="text-cyber-blue font-bold mb-2">Professional Reports</h3>
-          <p className="text-muted-foreground text-sm">
-            PDF, CSV, JSON exports with executive summaries and compliance data
-          </p>
-        </div>
-      </div>
-    </div>
-  )
 }
 
 function Dashboard() {
@@ -93,7 +53,7 @@ function Dashboard() {
           users: users?.data ? 1 : 0,
           machines: 0,
           sessions: sessions?.data?.length ?? 0,
-          activeSessions: sessions?.data?.filter((s: any) => s.status === 'active').length ?? 0,
+          activeSessions: sessions?.data?.filter((s: { status: string }) => s.status === 'active').length ?? 0,
           reports: reports?.data?.length ?? 0,
           targets: targets?.data?.length ?? 0,
           scans: scans?.data?.length ?? 0,
@@ -118,56 +78,43 @@ function Dashboard() {
     <div className="space-y-6">
       <h1 className="text-3xl font-bold cyber-text-gradient">Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="cyber-card">
-          <h3 className="text-muted-foreground text-sm">Total Users</h3>
-          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.users}</p>
-        </div>
-        <div className="cyber-card">
-          <h3 className="text-muted-foreground text-sm">Total Machines</h3>
-          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.machines}</p>
-        </div>
-        <div className="cyber-card">
-          <h3 className="text-muted-foreground text-sm">Total Sessions</h3>
-          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.sessions}</p>
-        </div>
-        <div className="cyber-card">
-          <h3 className="text-muted-foreground text-sm">Active Sessions</h3>
-          <p className="text-3xl font-bold mt-2 text-cyber-accent">
-            {loading ? '-' : stats.activeSessions}
-          </p>
-        </div>
-        <div className="cyber-card">
-          <h3 className="text-muted-foreground text-sm">Total Targets</h3>
-          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.targets}</p>
-        </div>
-        <div className="cyber-card">
-          <h3 className="text-muted-foreground text-sm">Total Scans</h3>
-          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.scans}</p>
-        </div>
-        <div className="cyber-card">
-          <h3 className="text-muted-foreground text-sm">Total Reports</h3>
-          <p className="text-3xl font-bold mt-2">{loading ? '-' : stats.reports}</p>
-        </div>
-        <div className="cyber-card">
-          <h3 className="text-muted-foreground text-sm">System Status</h3>
-          <p className="text-3xl font-bold mt-2 text-green-500">Healthy</p>
-        </div>
+        {[
+          { label: 'Total Users', value: loading ? '-' : stats.users },
+          { label: 'Total Machines', value: loading ? '-' : stats.machines },
+          { label: 'Total Sessions', value: loading ? '-' : stats.sessions },
+          { label: 'Active Sessions', value: loading ? '-' : stats.activeSessions, accent: true },
+          { label: 'Total Targets', value: loading ? '-' : stats.targets },
+          { label: 'Total Scans', value: loading ? '-' : stats.scans },
+          { label: 'Total Reports', value: loading ? '-' : stats.reports },
+          { label: 'System Status', value: 'Healthy', healthy: true },
+        ].map((item) => (
+          <div key={item.label} className="glass-card text-center">
+            <h3 className="text-[var(--text-secondary)] text-sm">{item.label}</h3>
+            <p
+              className={`text-3xl font-bold mt-2 ${
+                item.healthy ? 'text-[var(--accent-green)]' : item.accent ? 'text-[var(--accent-cyan)]' : ''
+              }`}
+            >
+              {item.value}
+            </p>
+          </div>
+        ))}
       </div>
-      <div className="cyber-card">
-        <h3 className="text-lg font-bold mb-4">Quick Links</h3>
-        <div className="flex gap-4">
-          <Link to="/targets" className="cyber-button">
+      <div className="glass-card">
+        <h3 className="text-lg font-bold mb-4 text-[var(--accent-cyan)]">Quick Links</h3>
+        <div className="flex flex-wrap gap-4">
+          <Link to="/targets" className="rf-btn rf-btn-primary">
             Manage Targets
           </Link>
-          <Link to="/scans" className="cyber-button">
+          <Link to="/scans" className="rf-btn rf-btn-secondary">
             View Scans
           </Link>
-          <Link to="/sessions" className="cyber-button">
+          <Link to="/sessions" className="rf-btn rf-btn-secondary">
             View Sessions
           </Link>
           <a
             href={`${backendUrl}/api/v1/docs`}
-            className="cyber-button"
+            className="rf-btn rf-btn-secondary"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -181,43 +128,99 @@ function Dashboard() {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-cyber-dark">
+    <div className="min-h-screen bg-[var(--dark-bg)]">
       <Navbar />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="relative z-10 pt-16">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/login"
+            element={
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <Login />
+              </div>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <Register />
+              </div>
+            }
+          />
+          <Route
+            path="/academy"
+            element={
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <AcademyHome />
+              </div>
+            }
+          />
+          <Route
+            path="/academy/courses/:slug"
+            element={
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <CourseDetail />
+              </div>
+            }
+          />
+          <Route
+            path="/academy/courses/:slug/lessons/:lessonSlug"
+            element={
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <LessonViewer />
+              </div>
+            }
+          />
+          <Route
+            path="/academy/my-learning"
+            element={
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <ProtectedRoute>
+                  <MyLearning />
+                </ProtectedRoute>
+              </div>
+            }
+          />
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              </div>
             }
           />
           <Route
             path="/targets"
             element={
-              <ProtectedRoute>
-                <Targets />
-              </ProtectedRoute>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <ProtectedRoute>
+                  <Targets />
+                </ProtectedRoute>
+              </div>
             }
           />
           <Route
             path="/scans"
             element={
-              <ProtectedRoute>
-                <Scans />
-              </ProtectedRoute>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <ProtectedRoute>
+                  <Scans />
+                </ProtectedRoute>
+              </div>
             }
           />
           <Route
             path="/sessions"
             element={
-              <ProtectedRoute>
-                <Sessions />
-              </ProtectedRoute>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <ProtectedRoute>
+                  <Sessions />
+                </ProtectedRoute>
+              </div>
             }
           />
           <Route path="*" element={<Home />} />
