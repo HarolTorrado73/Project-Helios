@@ -48,4 +48,13 @@ export const endpoints = {
     download: (id: number) => `/api/v1/reports/${id}/download`,
     generate: (id: number) => `/api/v1/reports/${id}/generate`,
   },
+  academy: {
+    courses: '/api/v1/academy/courses',
+    course: (slug: string) => `/api/v1/academy/courses/${slug}`,
+    lesson: (slug: string, lessonSlug: string) =>
+      `/api/v1/academy/courses/${slug}/lessons/${lessonSlug}`,
+    enroll: (slug: string) => `/api/v1/academy/courses/${slug}/enroll`,
+    lessonProgress: (lessonId: number) => `/api/v1/academy/lessons/${lessonId}/progress`,
+    myLearning: '/api/v1/academy/me/learning',
+  },
 }
