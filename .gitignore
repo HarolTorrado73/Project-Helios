@@ -44,6 +44,10 @@ build/
 .DS_Store
 Thumbs.db
 
+# Database
+
+*.db
+
 # Coverage
 
 .coverage
