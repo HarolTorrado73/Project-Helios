@@ -41,7 +41,7 @@ jobs:
 
     - name: Upload coverage
       if: env.CODECOV_TOKEN != ''
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v7
       with:
         file: ./backend/coverage.xml
       env:
